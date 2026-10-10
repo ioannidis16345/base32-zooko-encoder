@@ -22,3 +22,10 @@ The trade-off: it is not RFC 4648 base32. You cannot swap this in where a system
 The input length in bits is rarely a multiple of 5, so the encoder's final character carries some zero padding bits. The decoder discards those trailing bits. This means `decode_to_bytes("y")` returns `b""` — a single `y` is 5 zero bits, which is fewer than 8, so nothing survives. This is correct and is the standard Z-Base32 behaviour, but it means the codec is not injective on strings of arbitrary trailing-bit patterns. If you need round-trip fidelity, encode bytes and decode the full string; do not truncate encoded strings.
 
 The alphabet is lowercase only. Uppercase input is rejected on decode, not normalised, because accepting uppercase would reintroduce exactly the visual ambiguity the alphabet was designed to eliminate.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
