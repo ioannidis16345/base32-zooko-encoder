@@ -1,6 +1,6 @@
 [project]
 name = "base32-zooko-encoder"
-version = "0.1.0"
+version = "0.1.1"
 description = "Encodes and decodes using the Z-Base32 alphabet optimized for human readability and transcription by Zooko."
 requires-python = ">=3.10"
 dependencies = []
